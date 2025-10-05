@@ -405,7 +405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ea16ed6242a12418d680889163fb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camFollowSpeed: 0.1
+  camFollowSpeed: 0.5
   camOffset: {x: 0, y: 0, z: -10}
   player: {fileID: 650006355}
 --- !u!1 &532993158
@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2921330492506255289, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2921330492506255289, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -660,6 +660,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5757217288348643829, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
+      propertyPath: jumpBufferFrames
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -681,7 +685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1409766637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,7 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 1
   m_MaxPlayerCount: 2
   m_AllowJoining: 1
   m_JoinBehavior: 0

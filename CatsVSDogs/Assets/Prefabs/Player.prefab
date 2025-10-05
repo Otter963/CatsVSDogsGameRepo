@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5339344475809050783}
   - component: {fileID: 3185566107879857075}
   - component: {fileID: 5757217288348643829}
+  - component: {fileID: 7517734491627385534}
   - component: {fileID: 7046933631469063428}
   - component: {fileID: 7758339554680283470}
   m_Layer: 0
@@ -162,7 +163,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -181,7 +182,14 @@ MonoBehaviour:
   playerInputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   playerRB: {fileID: 3185566107879857075}
   walkSpeed: 10
+  coyoteTime: 0.1
   jumpForce: 30
+  maxAirJumps: 1
+  jumpBufferFrames: 8
+  dashSpeed: 70
+  dashTime: 0.2
+  dashCooldown: 0.35
+  dashEffect: {fileID: 7158275413829705583, guid: 15245bb594f4391428392428cdca8f2d, type: 3}
   groundCheckPoint: {fileID: 6194149335862782681}
   groundCheckY: 0.2
   groundCheckX: 0.2
@@ -189,6 +197,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   playerAnim: {fileID: 7758339554680283470}
+--- !u!114 &7517734491627385534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118236929426344320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c44e2fbfc2eb564f8b21ee0daedcba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isJumping: 0
+  isDashing: 0
 --- !u!114 &7046933631469063428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +265,19 @@ MonoBehaviour:
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space,/DualSenseGamepadHID/buttonSouth]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5757217288348643829}
+        m_TargetAssemblyTypeName: PlayerMovementScript, Assembly-CSharp
+        m_MethodName: StartDash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
     m_ActionName: 'Player/Sprint[/Keyboard/leftShift,/DualSenseGamepadHID/leftStickPress]'
   - m_PersistentCalls:
