@@ -24,7 +24,7 @@ public class PlayerMovementScript : MonoBehaviour
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 45;
 
-    private int airJumpCounter = 0;
+    private float airJumpCounter = 0;
     [SerializeField] private float maxAirJumps;
 
     private float jumpBufferCounter = 0;
@@ -223,7 +223,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
         else
         {
-            jumpBufferCounter = jumpBufferCounter - Time.deltaTime * 10;
+            jumpBufferCounter--;
         }
     }
 
