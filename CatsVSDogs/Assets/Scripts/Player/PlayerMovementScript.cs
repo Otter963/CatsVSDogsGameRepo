@@ -7,6 +7,8 @@ public class PlayerMovementScript : MonoBehaviour
     [Header("Input System")]
     [SerializeField] public InputActionAsset playerInputActions;
 
+    private InputActionMap player;
+
     private InputAction m_jumpAction;
 
     private InputAction m_dashAction;
@@ -62,6 +64,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void Awake()
     {
+        player = playerInputActions.FindActionMap("Player");
         m_jumpAction = InputSystem.actions.FindAction("Jump");
         m_dashAction = InputSystem.actions.FindAction("Dash");
 
@@ -227,10 +230,12 @@ public class PlayerMovementScript : MonoBehaviour
     private void OnEnable()
     {
         playerInputActions.FindActionMap("Player").Enable();
+        player.Enable();
     }
 
     private void OnDisable()
     {
         playerInputActions.FindActionMap("Player").Disable();
+        player.Disable();
     }
 }
