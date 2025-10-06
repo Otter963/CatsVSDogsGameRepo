@@ -214,7 +214,7 @@ public class PlayerMovementScript : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (m_jumpAction.WasPressedThisFrame())
+        if (m_jumpAction.IsPressed())
         {
             jumpBufferCounter = jumpBufferFrames;
         }
