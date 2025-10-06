@@ -29,7 +29,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     private float jumpBufferCounter = 0;
 
-    [SerializeField] private int jumpBufferFrames;
+    [SerializeField] private float jumpBufferFrames;
 
     [Header("Dash Settings")]
     private bool canDash = true;
@@ -191,7 +191,7 @@ public class PlayerMovementScript : MonoBehaviour
 
                 pState.isJumping = true;
             }
-            else if (!Grounded() && airJumpCounter < maxAirJumps && m_jumpAction.IsPressed()) //double jump
+            else if (!Grounded() && airJumpCounter < maxAirJumps && m_jumpAction.WasPressedThisFrame()) //double jump
             {
                 pState.isJumping = true;
 
@@ -217,13 +217,13 @@ public class PlayerMovementScript : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (m_jumpAction.IsPressed())
+        if (m_jumpAction.WasPressedThisFrame())
         {
             jumpBufferCounter = jumpBufferFrames;
         }
         else
         {
-            jumpBufferCounter--;
+            jumpBufferCounter = jumpBufferCounter - Time.deltaTime * 10;
         }
     }
 
