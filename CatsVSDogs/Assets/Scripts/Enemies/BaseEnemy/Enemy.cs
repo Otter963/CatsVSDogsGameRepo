@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         enemyRB = GetComponent<Rigidbody2D>();
-        player = PlayerMovementScript.instance;
+        player = GetComponent<PlayerMovementScript>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

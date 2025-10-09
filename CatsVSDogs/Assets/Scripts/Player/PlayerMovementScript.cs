@@ -101,6 +101,7 @@ public class PlayerMovementScript : MonoBehaviour
 
         playerGravity = playerRB.gravityScale;
 
+        /*
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -109,6 +110,7 @@ public class PlayerMovementScript : MonoBehaviour
         {
             instance = this;
         }
+        */
 
         playerHealth = maxPlayerHealth;
     }
