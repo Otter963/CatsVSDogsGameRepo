@@ -1590,6 +1590,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   score:
     m_InternalValue: 0
+  scoreStringText:
+    m_InternalValue: 
   scoreText: {fileID: 574837362}
 --- !u!4 &1790525137
 Transform:

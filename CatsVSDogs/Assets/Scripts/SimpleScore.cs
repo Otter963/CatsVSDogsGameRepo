@@ -10,8 +10,14 @@ public class SimpleScore : NetworkBehaviour
 
     public TextMeshProUGUI scoreText;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
+        if (IsServer)
+        {
+            enabled = false;
+            return;
+        }
+
         score.OnValueChanged += (oldValue, newValue) =>
         {
             Debug.Log($"Score changed to: {newValue}");
