@@ -2,27 +2,32 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 
+//note that at the moment, this only works on the host's side, the client cannot add to the score
 public class SimpleScore : NetworkBehaviour
 {
-    public NetworkVariable<int> score = new NetworkVariable<int>();
+    //the variable you want across host and client
 
-    public NetworkVariable<string> scoreStringText = new NetworkVariable<string>();
+    public NetworkVariable<int> score = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    //the score text, I used TextMeshPro, but should work with normal text too
     public TextMeshProUGUI scoreText;
+
+    private void Start()
+    {
+        score.OnValueChanged += OnScoreChanged;
+    }
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            enabled = false;
-            return;
-        }
+        //Updating the UI to the zero initalized as before
+        scoreText.text = score.Value.ToString();
+    }
 
-        score.OnValueChanged += (oldValue, newValue) =>
-        {
-            Debug.Log($"Score changed to: {newValue}");
-            scoreStringText.Value = score.Value.ToString();
-        };
+    private void OnScoreChanged(int oldValue, int newValue)
+    {
+        Debug.Log($"Score changed from {oldValue} to {newValue}");
+        //changing the text to the value, since it's an integer
+        scoreText.text = newValue.ToString();
     }
 
     void Update()
@@ -30,7 +35,6 @@ public class SimpleScore : NetworkBehaviour
         if (IsServer && Input.GetKeyDown(KeyCode.S))
         {
             score.Value += 10;
-            scoreText.text = scoreStringText.ToString();
             Debug.Log("Server added 10 points");
         }
     }
