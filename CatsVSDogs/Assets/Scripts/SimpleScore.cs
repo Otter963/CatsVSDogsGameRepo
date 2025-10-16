@@ -32,7 +32,7 @@ public class SimpleScore : NetworkBehaviour
 
     void Update()
     {
-        if (IsServer && Input.GetKeyDown(KeyCode.S))
+        if (IsServer && Input.GetKeyDown(KeyCode.B))
         {
             score.Value += 10;
             Debug.Log("Server added 10 points");

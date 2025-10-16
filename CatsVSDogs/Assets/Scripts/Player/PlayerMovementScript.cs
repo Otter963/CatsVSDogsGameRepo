@@ -129,7 +129,7 @@ public class PlayerMovementScript : NetworkBehaviour
         }
         */
 
-        Health = maxPlayerHealth;
+        playerHealth = maxPlayerHealth;
     }
     
 
@@ -350,7 +350,7 @@ public class PlayerMovementScript : NetworkBehaviour
 
     public void TakeDamage(float _damage)
     {
-        Health -= Mathf.RoundToInt(_damage);
+        playerHealth -= Mathf.RoundToInt(_damage);
         StartCoroutine(StopTakingDamage());
     }
 
@@ -360,8 +360,14 @@ public class PlayerMovementScript : NetworkBehaviour
         GameObject _bloodSpurtParticles = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
         Destroy(_bloodSpurtParticles, 1.5f);
         playerAnim.SetTrigger("TakeDamage");
+        ClampHealth();
         yield return new WaitForSeconds(1f);
         pState.invincible = false;
+    }
+
+    void ClampHealth()
+    {
+        playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
     }
 
     void FlashWhileInvincible()
@@ -405,6 +411,8 @@ public class PlayerMovementScript : NetworkBehaviour
         yield return new WaitForSeconds(_delay);
     }
 
+    //for when hearts are implemented
+    /*
     public int Health
     {
         get { return playerHealth; } 
@@ -416,6 +424,7 @@ public class PlayerMovementScript : NetworkBehaviour
             }
         }
     }
+    */
 
     public bool Grounded()
     {
