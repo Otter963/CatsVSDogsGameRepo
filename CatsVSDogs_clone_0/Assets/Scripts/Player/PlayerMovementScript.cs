@@ -54,6 +54,9 @@ public class PlayerMovementScript : NetworkBehaviour
     [SerializeField] private LayerMask attackableLayer;
     [SerializeField] float damage;
     [SerializeField] private GameObject slashEffect;
+
+    bool restoreTime;
+    float restoreTimeSpeed;
     [Space(5)]
 
     [Header("Recoil Settings")]
@@ -67,6 +70,9 @@ public class PlayerMovementScript : NetworkBehaviour
     [Header("Health Settings")]
     public int playerHealth;
     public int maxPlayerHealth;
+    [SerializeField] private GameObject bloodSpurt;
+    [SerializeField] float hitFlashSpeed;
+    [SerializeField] private SpriteRenderer playerSR;
     [Space(5)]
 
     [Header("Ground Check Settings")]
@@ -100,6 +106,7 @@ public class PlayerMovementScript : NetworkBehaviour
         }
     }
 
+    
     private void Awake()
     {
         player = playerInputActions.FindActionMap("Player");
@@ -122,8 +129,10 @@ public class PlayerMovementScript : NetworkBehaviour
         }
         */
 
-        playerHealth = maxPlayerHealth;
+        Health = maxPlayerHealth;
     }
+    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -142,6 +151,11 @@ public class PlayerMovementScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         GetInputs();
         UpdateJumpVariables();
 
@@ -151,6 +165,8 @@ public class PlayerMovementScript : NetworkBehaviour
         Jump();
         StartDash();
         Attack();
+        RestoreTimeScale();
+        FlashWhileInvincible();
     }
 
     void GetInputs()
@@ -182,7 +198,7 @@ public class PlayerMovementScript : NetworkBehaviour
 
     public void StartDash()
     {
-        if (m_dashAction.IsPressed() && canDash && !dashed)
+        if (IsClient && m_dashAction.IsPressed() && canDash && !dashed)
         {
             Debug.Log("Dash pressed");
             StartCoroutine(Dash());
@@ -334,22 +350,71 @@ public class PlayerMovementScript : NetworkBehaviour
 
     public void TakeDamage(float _damage)
     {
-        playerHealth -= Mathf.RoundToInt(_damage);
+        Health -= Mathf.RoundToInt(_damage);
         StartCoroutine(StopTakingDamage());
     }
 
     IEnumerator StopTakingDamage()
     {
         pState.invincible = true;
+        GameObject _bloodSpurtParticles = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
+        Destroy(_bloodSpurtParticles, 1.5f);
         playerAnim.SetTrigger("TakeDamage");
-        ClampHealth();
         yield return new WaitForSeconds(1f);
         pState.invincible = false;
     }
 
-    void ClampHealth()
+    void FlashWhileInvincible()
     {
-        playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
+        playerSR.material.color = pState.invincible ? 
+            Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time * hitFlashSpeed, 1.0f)) : Color.white;
+    }
+
+    void RestoreTimeScale()
+    {
+        if (restoreTime)
+        {
+            Time.timeScale += Time.deltaTime * restoreTimeSpeed;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            restoreTime = true;
+        }
+    }
+
+    public void HitStopTime(float _newTimeScale, int _restoreSpeed, float _delay)
+    {
+        restoreTimeSpeed = _restoreSpeed;
+        Time.timeScale = _newTimeScale;
+
+        if (_delay > 0)
+        {
+            StopCoroutine(StartTimeAgain(_delay));
+            StartCoroutine(StartTimeAgain(_delay));
+        }
+        else
+        {
+            restoreTime = true;
+        }
+    }
+
+    IEnumerator StartTimeAgain(float _delay)
+    {
+        restoreTime = true;
+        yield return new WaitForSeconds(_delay);
+    }
+
+    public int Health
+    {
+        get { return playerHealth; } 
+        set
+        {
+            if (playerHealth != value)
+            {
+                Health = Mathf.Clamp(value, 0, maxPlayerHealth);
+            }
+        }
     }
 
     public bool Grounded()
