@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerStateList : MonoBehaviour
+public class PlayerStateList : NetworkBehaviour
 {
     public bool isJumping = false;
     public bool isDashing = false;
