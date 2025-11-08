@@ -2069,7 +2069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2386265385
+  GlobalObjectIdHash: 918517371
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -6642,7 +6642,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1542857505}
-    PlayerPrefab: {fileID: 1118236929426344320, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
+    PlayerPrefab: {fileID: 4539873893286467326, guid: a229363240d2b2a49b45856b90d5376d, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: d69bcb5e65701034a9da1455535e34a7, type: 2}
@@ -7853,7 +7853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1016550349
+  GlobalObjectIdHash: 2935851205
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

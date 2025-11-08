@@ -7835,7 +7835,7 @@ GameObject:
   - component: {fileID: 1790525135}
   - component: {fileID: 1790525136}
   m_Layer: 0
-  m_Name: Testing
+  m_Name: ScoreSync
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
