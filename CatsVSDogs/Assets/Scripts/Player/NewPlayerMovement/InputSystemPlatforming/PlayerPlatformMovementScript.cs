@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerPlatformMovementScript : MonoBehaviour
+public class PlayerPlatformMovementScript : NetworkBehaviour
 {
     public Rigidbody2D playerRB;
     public Transform groundCheck;
@@ -12,9 +13,23 @@ public class PlayerPlatformMovementScript : MonoBehaviour
     [SerializeField] private float jumpForce = 16f;
     private bool isFacingRight = true;
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            enabled = false;
+            return;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         playerRB.linearVelocity = new Vector2(horizontal * speed, playerRB.linearVelocity.y);
 
         if (!isFacingRight && horizontal > 0f)

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3441344855672217801}
   - component: {fileID: 4218477257691814491}
   - component: {fileID: 1932800014569568100}
-  - component: {fileID: 1186018079990914943}
   - component: {fileID: 553288634586583289}
+  - component: {fileID: 1186018079990914943}
   - component: {fileID: 2182980485114315894}
   - component: {fileID: 357615831389717835}
   m_Layer: 0
@@ -231,25 +231,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1186018079990914943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4539873893286467326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a2d7ef075550347aed59e5ee9716f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRB: {fileID: 3441344855672217801}
-  groundCheck: {fileID: 3616918871811283281}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  speed: 10
-  jumpForce: 25
 --- !u!114 &553288634586583289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +256,26 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1186018079990914943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539873893286467326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a2d7ef075550347aed59e5ee9716f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerRB: {fileID: 3441344855672217801}
+  groundCheck: {fileID: 3616918871811283281}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  speed: 10
+  jumpForce: 25
 --- !u!114 &2182980485114315894
 MonoBehaviour:
   m_ObjectHideFlags: 0
