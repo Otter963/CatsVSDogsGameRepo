@@ -15,11 +15,8 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner)
-        {
-            enabled = false;
-            return;
-        }
+        if (IsOwner)
+            DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

@@ -2,17 +2,18 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 public class LanDiscovery : MonoBehaviour
 {
     public int broadcastPort = 47777; // LAN discovery port
     public string broadcastMessage = "NGO_HOST_HERE";
+    public string detectedHostIP { get; private set; }
 
+    private bool broadcasting = false;
     private UdpClient udpClient;
     private Thread listenThread;
-    public string detectedHostIP;
+    private readonly object lockObj = new object();
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class LanDiscovery : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopBroadcast();
         listenThread?.Abort();
         udpClient?.Close();
     }
@@ -29,6 +31,8 @@ public class LanDiscovery : MonoBehaviour
     #region Host
     public void BroadcastHost()
     {
+        broadcasting = true;
+
         ThreadPool.QueueUserWorkItem(_ =>
         {
             using (var client = new UdpClient())
@@ -37,13 +41,25 @@ public class LanDiscovery : MonoBehaviour
                 IPEndPoint ep = new IPEndPoint(IPAddress.Broadcast, broadcastPort);
                 byte[] data = Encoding.UTF8.GetBytes(broadcastMessage);
 
-                while (true)
+                while (broadcasting)
                 {
-                    client.Send(data, data.Length, ep);
-                    Thread.Sleep(1000); // send every 1 second
+                    try
+                    {
+                        client.Send(data, data.Length, ep);
+                        Thread.Sleep(1000);
+                    }
+                    catch (SocketException ex)
+                    {
+                        Debug.LogWarning("Broadcast error: " + ex.Message);
+                    }
                 }
             }
         });
+    }
+
+    public void StopBroadcast()
+    {
+        broadcasting = false;
     }
     #endregion
 
@@ -61,9 +77,13 @@ public class LanDiscovery : MonoBehaviour
                 {
                     byte[] data = udpClient.Receive(ref remoteEP);
                     string message = Encoding.UTF8.GetString(data);
+
                     if (message == broadcastMessage)
                     {
-                        detectedHostIP = remoteEP.Address.ToString();
+                        lock (lockObj)
+                        {
+                            detectedHostIP = remoteEP.Address.ToString();
+                        }
                         Debug.Log("Detected host: " + detectedHostIP);
                     }
                 }
@@ -72,6 +92,14 @@ public class LanDiscovery : MonoBehaviour
         });
         listenThread.IsBackground = true;
         listenThread.Start();
+    }
+
+    public string GetDetectedHostIP()
+    {
+        lock (lockObj)
+        {
+            return detectedHostIP;
+        }
     }
     #endregion
 }
