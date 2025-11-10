@@ -6642,7 +6642,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1542857505}
-    PlayerPrefab: {fileID: 1118236929426344320, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
+    PlayerPrefab: {fileID: 4539873893286467326, guid: a229363240d2b2a49b45856b90d5376d, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: d69bcb5e65701034a9da1455535e34a7, type: 2}
@@ -6698,7 +6698,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   broadcastPort: 47777
   broadcastMessage: NGO_HOST_HERE
-  detectedHostIP: 
 --- !u!1 &1566691877
 GameObject:
   m_ObjectHideFlags: 0
