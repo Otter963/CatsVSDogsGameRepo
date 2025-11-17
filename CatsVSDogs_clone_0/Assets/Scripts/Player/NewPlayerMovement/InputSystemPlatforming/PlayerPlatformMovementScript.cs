@@ -11,6 +11,7 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
     private float horizontal;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float jumpForce = 16f;
+    [SerializeField] private Animator playerAnimator;
     private bool isFacingRight = true;
 
     public override void OnNetworkSpawn()
@@ -27,8 +28,33 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
             return;
         }
 
+        //for when the player is idling
+        if (horizontal == 0 && IsGrounded())
+        {
+            playerAnimator.SetBool("PlayerJump", false);
+            playerAnimator.SetBool("PlayerFall", false);
+            playerAnimator.SetBool("PlayerIdle", true);
+        }
+        else if (horizontal == 0 && !IsGrounded())
+        {
+            playerAnimator.SetBool("PlayerJump", true);
+        }
+        else if (horizontal == 0 && !IsGrounded() && playerRB.linearVelocity.y < 0f)
+        {
+            playerAnimator.SetBool("PlayerJump", false);
+            playerAnimator.SetBool("PlayerFall", true);
+        }
+
+        //when the player is falling
+        if (playerRB.linearVelocity.y < 0f && !IsGrounded())
+        {
+            playerAnimator.SetBool("PlayerFall", true);
+        }
+
+        //when the player moves
         playerRB.linearVelocity = new Vector2(horizontal * speed, playerRB.linearVelocity.y);
 
+        //flipping the player
         if (!isFacingRight && horizontal > 0f)
         {
             Flip();
@@ -44,11 +70,13 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
         if (context.performed && IsGrounded())
         {
             playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, jumpForce);
+            playerAnimator.SetBool("PlayerJump", true);
         }
 
         if (context.canceled && playerRB.linearVelocity.y > 0f)
         {
             playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, playerRB.linearVelocity.y * 0.5f);
+            playerAnimator.SetBool("PlayerJump", false);
         }
     }
 
@@ -68,5 +96,8 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
     public void PlayerMove(InputAction.CallbackContext context)
     {
         horizontal = context.ReadValue<Vector2>().x;
+        playerAnimator.SetBool("PlayerIdle", false);
+        playerAnimator.SetBool("PlayerJump", false);
+        playerAnimator.SetBool("PlayerFall", false);
     }
 }
