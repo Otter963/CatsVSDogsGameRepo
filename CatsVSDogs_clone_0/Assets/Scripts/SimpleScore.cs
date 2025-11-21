@@ -12,6 +12,8 @@ public class SimpleScore : NetworkBehaviour
     //the score text, I used TextMeshPro, but should work with normal text too
     public TextMeshProUGUI scoreText;
 
+    [SerializeField] private CollectCoin coinCollection;
+
     private void Start()
     {
         score.OnValueChanged += OnScoreChanged;
@@ -32,9 +34,9 @@ public class SimpleScore : NetworkBehaviour
 
     void Update()
     {
-        if (IsServer && Input.GetKeyDown(KeyCode.B))
+        if (IsServer && coinCollection.coinCollected == true)
         {
-            score.Value += 10;
+            coinCollection.coinCollected = false;
             Debug.Log("Server added 10 points");
         }
     }

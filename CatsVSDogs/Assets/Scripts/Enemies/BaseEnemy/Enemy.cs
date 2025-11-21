@@ -11,13 +11,11 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D enemyRB;
     [SerializeField] protected float enemyDamage;
 
-    [SerializeField] protected PlayerMovementScript player;
     [SerializeField] protected float speed;
 
     protected virtual void Awake()
     {
         enemyRB = GetComponent<Rigidbody2D>();
-        player = GetComponent<PlayerMovementScript>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,27 +45,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
+    public virtual void EnemyHit(float _damageDone)
     {
         health -= _damageDone;
-        if (!isRecoiling)
-        {
-            enemyRB.AddForce(-_hitForce * recoilFactor * _hitDirection);
-            isRecoiling = true;
-        }
     }
 
     protected void OnTriggerStay2D(Collider2D _other)
     {
-        if (_other.CompareTag("Player") && !PlayerMovementScript.instance.pState.invincible)
+        if (_other.CompareTag("Player"))
         {
             EnemyAttack();
-            PlayerMovementScript.instance.HitStopTime(0, 5, 0.5f);
         }
     }
 
     protected virtual void EnemyAttack()
     {
-        PlayerMovementScript.instance.TakeDamage(enemyDamage);
+        
     }
 }

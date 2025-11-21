@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1295552694464519175}
   m_Layer: 8
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,7 +183,6 @@ MonoBehaviour:
   recoilFactor: 10
   isRecoiling: 0
   enemyDamage: 1
-  player: {fileID: 5757217288348643829, guid: 19da6bf9943f5da4bbb1049a45e5bd3b, type: 3}
   speed: 5
 --- !u!61 &910554548346018142
 BoxCollider2D:

@@ -12,6 +12,7 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
     [SerializeField] private float speed = 8f;
     [SerializeField] private float jumpForce = 16f;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Animator attackAnimator;
     private bool isFacingRight = true;
 
     public override void OnNetworkSpawn()
@@ -99,5 +100,17 @@ public class PlayerPlatformMovementScript : NetworkBehaviour
         playerAnimator.SetBool("PlayerIdle", false);
         playerAnimator.SetBool("PlayerJump", false);
         playerAnimator.SetBool("PlayerFall", false);
+    }
+
+    public void PlayerAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            attackAnimator.SetBool("Attack", true);
+        }
+        else
+        {
+            attackAnimator.SetBool("Attack", false);
+        }
     }
 }

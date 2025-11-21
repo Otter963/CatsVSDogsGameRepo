@@ -15,16 +15,10 @@ public class Zombie : Enemy
     protected override void Update()
     {
         base.Update();
-        if (!isRecoiling)
-        {
-            transform.position = Vector2.MoveTowards
-                (transform.position, new Vector2(PlayerMovementScript.instance.transform.position.x, transform.position.y),
-                speed * Time.deltaTime);
-        }
     }
 
-    public override void EnemyHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
+    public override void EnemyHit(float _damageDone)
     {
-        base.EnemyHit(_damageDone, _hitDirection, _hitForce);
+        base.EnemyHit(_damageDone);
     }
 }
